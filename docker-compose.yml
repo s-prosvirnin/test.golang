@@ -1,0 +1,26 @@
+version: '3.4'
+
+services:
+    golang.test:
+        container_name: golang.test
+        build:
+            context: .
+            target: golang_test
+        environment:
+            user: $user
+            group: $group
+        #command: /go/entrypoint.sh
+        #entrypoint: /go/entrypoint.sh
+        #command: $entrypoint
+        command: bash -c "${entrypoint}"
+        #command: "echo ${entrypoint}"
+        #command: ls -la
+        networks:
+            - golang.test
+        volumes:
+            - "${PWD}:/go"
+        ports:
+            - "3001:3001"
+networks:
+    golang.test:
+        driver: bridge
