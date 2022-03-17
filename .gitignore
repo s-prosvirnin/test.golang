@@ -1,3 +1,5 @@
 .DS_Store
 .idea/
 pkg
+__debug_bin
+main
