@@ -9,6 +9,7 @@ import (
 	"testing"
 
 	"github.com/ugorji/go/codec"
+	"github.com/vmihailenco/msgpack/v5"
 )
 
 func makeList() []string {
@@ -26,7 +27,7 @@ func list() {
 	_ = strings.Split(listStr, ",")
 }
 
-func msgpack() {
+func msgpackEncoder() {
 	var (
 		r  io.Reader
 		w  io.Writer
@@ -72,15 +73,26 @@ func jsonMarshal() {
 	// fmt.Println(listRes)
 }
 
+func msgPackMarshall() {
+	list := makeList()
+
+	buf, _ := msgpack.Marshal(list)
+	// fmt.Println(buf)
+
+	var listRes []string
+	_ = msgpack.Unmarshal(buf, &listRes)
+	// fmt.Println(listRes)
+}
+
 func BenchmarkList(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		list()
 	}
 }
 
-func BenchmarkMsgPack(b *testing.B) {
+func BenchmarkMsgpackEncoder(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		msgpack()
+		msgpackEncoder()
 	}
 }
 
@@ -93,5 +105,11 @@ func BenchmarkJsonEncoder(b *testing.B) {
 func BenchmarkJsonMarshal(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		jsonMarshal()
+	}
+}
+
+func BenchmarkMsgpackMarshall(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		msgPackMarshall()
 	}
 }
