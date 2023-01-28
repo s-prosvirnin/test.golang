@@ -34,7 +34,23 @@ func main() {
 
 	//structPointers()
 
-	errors()
+	//errors()
+
+	generics()
+}
+
+type genA struct {
+	val int
+}
+
+func generics() {
+	gens := []genA{genA{1}, genA{2}}
+	batchGenerics(&gens)
+	fmt.Println(gens)
+}
+
+func batchGenerics[T any](gens *[]T) {
+	*gens = (*gens)[:1]
 }
 
 func add(x int, y int) int {
